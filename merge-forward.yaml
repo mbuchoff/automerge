@@ -1,0 +1,26 @@
+trigger:
+- Release/*
+
+pr: none
+
+variables:
+  nextBranch: 'main'
+
+steps:
+
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/git-commands
+- checkout: self
+  fetchDepth: 0
+  persistCredentials: true
+
+- script: |
+    set -e -v
+
+    gitcommit=$(git rev-parse HEAD)
+    git checkout $(nextBranch)
+
+    git config --global user.email "mbuchoff@gmail.com"
+    git config --global user.name "DevOps $(Build.DefinitionName)"
+
+    git merge $gitcommit
+    git push
