@@ -4,7 +4,7 @@ trigger:
 pr: none
 
 variables:
-  nextBranch: 'release/2'
+  nextBranch: 'release/3'
 
 steps:
 
