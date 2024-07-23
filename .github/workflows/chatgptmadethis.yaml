@@ -1,0 +1,34 @@
+name: Update Repository
+
+on:
+  push:
+    branches:
+      - release/2
+
+jobs:
+  update_repo:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Make changes to the repository
+      run: |
+        echo "Updating repository"
+        # Add commands to update the repository here
+        # For example, creating a new file:
+        echo "This is a new file" > newfile.txt
+
+    - name: Commit changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Automated update by GitHub Action"
+        git push
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
