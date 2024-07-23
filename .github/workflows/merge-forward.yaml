@@ -9,7 +9,7 @@ jobs:
   merge_commit:
     runs-on: ubuntu-latest
     env:
-      RELEASE_BRANCH: release/1
+      RELEASE_BRANCH: main
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
