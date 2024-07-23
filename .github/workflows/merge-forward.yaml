@@ -8,6 +8,8 @@ on:
 jobs:
   merge_commit:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_BRANCH: release/1
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -26,7 +28,7 @@ jobs:
         set -e -v
         
         gitcommit=$(git rev-parse HEAD)
-        git checkout release/3
+        git checkout $RELEASE_BRANCH
         
         git merge $gitcommit --no-ff
         
