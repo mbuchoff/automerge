@@ -10,8 +10,6 @@ on:
 jobs:
   merge_commit:
     runs-on: ubuntu-latest
-    env:
-      RELEASE_BRANCH: release/1
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -23,15 +21,20 @@ jobs:
         git config --global user.email "mbuchoff@gmail.com"
         git config --global user.name "DevOps ${{ github.workflow }}"
 
+    - name: Read release branch from file
+      id: read_branch
+      run: |
+        RELEASE_BRANCH=$(cat release_branch.txt)
+        echo "::set-output name=branch::${RELEASE_BRANCH}"
+
     - name: Merge and push
       env:
-        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -e -v
         
         gitcommit=$(git rev-parse HEAD)
-        git checkout $RELEASE_BRANCH
+        git checkout ${{ steps.read_branch.outputs.branch }}
         
         git merge $gitcommit --no-ff
         
