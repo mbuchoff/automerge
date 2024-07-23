@@ -30,6 +30,6 @@ jobs:
         
         git merge $gitcommit --no-ff
         
-        echo ${GH_TOKEN}
+        echo ${#GH_TOKEN}
         git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/mbuchoff/automerge.git
         git push origin
