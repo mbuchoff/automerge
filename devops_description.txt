@@ -1,3 +1,6 @@
 The DevOps Developer is a mythical creature, bridging the gap between development and operations. With a keyboard as their wand, they weave automation spells and tame unruly servers. Clad in geeky attire, they harmonize chaos into streamlined efficiency, all while fostering collaboration between teams. Their realm is one of coding prowess, sysadmin sorcery, and a dash of quirky charm.
 
 By ChatGPT v3
+
+Addendum, by Mike
+bump
