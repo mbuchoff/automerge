@@ -20,6 +20,8 @@ jobs:
         git config --global user.name "DevOps ${{ github.workflow }}"
 
     - name: Merge and push
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         set -e -v
         
@@ -27,6 +29,6 @@ jobs:
         git checkout release/3
         
         git merge $gitcommit --no-ff
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        
+        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
+        git push origin
