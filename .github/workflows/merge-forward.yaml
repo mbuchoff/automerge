@@ -1,0 +1,36 @@
+name: Release Workflow
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  merge_commit:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_BRANCH: release/1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Git
+      run: |
+        git config --global user.email "mbuchoff@gmail.com"
+        git config --global user.name "DevOps ${{ github.workflow }}"
+
+    - name: Merge and push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -e -v
+        
+        gitcommit=$(git rev-parse HEAD)
+        git checkout $RELEASE_BRANCH
+        
+        git merge $gitcommit --no-ff
+        
+        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mbuchoff/automerge.git
+        git push origin
