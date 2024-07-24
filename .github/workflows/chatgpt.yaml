@@ -1,0 +1,44 @@
+name: Recursive Merge
+
+on:
+  push:
+    branches:
+      - release/3
+      - release/2
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Merge branch
+        id: merge
+        run: |
+          BRANCH=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+          echo "Current branch: $BRANCH"
+          
+          if [[ "$BRANCH" == "release/3" ]]; then
+            TARGET_BRANCH="release/2"
+          elif [[ "$BRANCH" == "release/2" ]]; then
+            TARGET_BRANCH="release/1"
+          else
+            echo "Branch $BRANCH is not configured for recursive merging"
+            exit 1
+          fi
+
+          git fetch origin $TARGET_BRANCH
+          git checkout $TARGET_BRANCH
+          git merge --no-ff --no-edit $BRANCH --allow-unrelated-histories
+          git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git $TARGET_BRANCH
+
+      - name: Check if merge was successful
+        if: steps.merge.outcome == 'success'
+        run: echo "Merge to $TARGET_BRANCH was successful"
