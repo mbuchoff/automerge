@@ -1,4 +1,4 @@
-name: Release Workflow
+name: Release Workflow 2
 
 on:
   push:
