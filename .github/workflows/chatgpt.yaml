@@ -1,4 +1,4 @@
-name: Recursive Merge
+name: Merge to branch 2
 
 on:
   push:
