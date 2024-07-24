@@ -34,14 +34,10 @@ jobs:
             exit 1
           fi
 
-          echo "Running git fetch..."
           git fetch origin $TARGET_BRANCH
-          echo "Done. Running git checkout..."
           git checkout $TARGET_BRANCH
-          echo "Done. Running git merge..."
           git merge --no-ff --no-edit $BRANCH --allow-unrelated-histories
-          echo "Done. Running git push..."
-          git push origin $TARGET_BRANCH
+          git push https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }}.git $TARGET_BRANCH
 
       - name: Check if merge was successful
         if: steps.merge.outcome == 'success'
