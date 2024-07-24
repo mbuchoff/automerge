@@ -27,7 +27,7 @@ jobs:
 
     - name: Merge and push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
       run: |
         set -e -v
         
