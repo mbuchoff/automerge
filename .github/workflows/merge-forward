@@ -1,0 +1,40 @@
+name: Release Workflow
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  merge_commit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Git
+      run: |
+        git config --global user.email "mbuchoff@gmail.com"
+        git config --global user.name "DevOps ${{ github.workflow }}"
+
+    - name: Read release branch from file
+      id: read_branch
+      run: |
+        RELEASE_BRANCH=$(cat release_branch.txt)
+        echo "::set-output name=branch::${RELEASE_BRANCH}"
+
+    - name: Merge and push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -e -v
+        
+        gitcommit=$(git rev-parse HEAD)
+        git checkout ${{ steps.read_branch.outputs.branch }}
+        
+        git merge $gitcommit --no-ff
+        
+        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mbuchoff/automerge.git
+        git push origin
