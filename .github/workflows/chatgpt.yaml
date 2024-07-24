@@ -39,7 +39,7 @@ jobs:
           echo "Done. Running git checkout..."
           git checkout $TARGET_BRANCH
           echo "Done. Running git merge..."
-          git merge --no-ff --no-edit $BRANCH
+          git merge --no-ff --no-edit $BRANCH --allow-unrelated-histories
           echo "Done. Running git push..."
           git push origin $TARGET_BRANCH
 
