@@ -1,5 +1,3 @@
 Hello!
 
 World.
-
-It's mike
