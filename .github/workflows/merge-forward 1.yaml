@@ -27,7 +27,7 @@ jobs:
 
     - name: Merge and push
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -e -v
         
@@ -38,3 +38,12 @@ jobs:
         
         git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mbuchoff/automerge.git
         git push origin
+
+    - name: Trigger Secondary Workflow on Different Branch
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        owner: ${{ github.repository_owner }}
+        repo: ${{ github.event.repository.name }}
+        workflow: merge-forward 2.yml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: release/2  # Specify the target branch here
