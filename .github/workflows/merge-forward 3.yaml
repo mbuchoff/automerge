@@ -42,7 +42,6 @@ jobs:
     - name: Trigger Secondary Workflow on Different Branch
       uses: benc-uk/workflow-dispatch@v1
       with:
-        owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         workflow: merge-forward 2.yml
         token: ${{ secrets.GITHUB_TOKEN }}
